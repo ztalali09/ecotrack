@@ -49,36 +49,36 @@ jobs:
         
         # Messages de commit réalistes
         FEAT_MESSAGES=(
-          "Add real-time carbon footprint monitoring"
-          "Implement AI-powered emission predictions"
-          "Create interactive sustainability dashboard"
-          "Add automated ESG reporting features"
+          "Add carbon footprint monitoring system"
+          "Implement emission prediction algorithms"
+          "Create sustainability dashboard interface"
+          "Add ESG reporting functionality"
           "Implement carbon offset tracking"
-          "Add multi-tenant architecture support"
-          "Create advanced analytics module"
-          "Implement machine learning anomaly detection"
+          "Add multi-tenant support"
+          "Create analytics module"
+          "Implement anomaly detection system"
         )
         
         FIX_MESSAGES=(
-          "Fix calculation error in scope 3 emissions"
-          "Resolve API rate limiting issues"
-          "Fix dashboard loading performance"
-          "Correct data visualization bugs"
-          "Fix authentication token expiration"
-          "Resolve database connection pooling"
-          "Fix email notification delivery"
+          "Fix scope 3 emissions calculation"
+          "Resolve API rate limiting"
+          "Fix dashboard performance issues"
+          "Correct data visualization errors"
+          "Fix authentication token handling"
+          "Resolve database connection issues"
+          "Fix notification delivery"
           "Correct carbon intensity calculations"
         )
         
         REFACTOR_MESSAGES=(
-          "Refactor AI service for better performance"
-          "Optimize database queries for large datasets"
-          "Improve code structure and maintainability"
-          "Refactor authentication middleware"
-          "Optimize frontend component architecture"
-          "Improve error handling across services"
-          "Refactor data processing pipeline"
-          "Optimize memory usage in ML models"
+          "Refactor AI service implementation"
+          "Optimize database query performance"
+          "Improve code organization"
+          "Refactor authentication system"
+          "Optimize frontend components"
+          "Improve error handling"
+          "Refactor data processing logic"
+          "Optimize ML model performance"
         )
         
         # Générer les commits seulement si COMMIT_COUNT > 0
@@ -90,43 +90,33 @@ jobs:
           case $COMMIT_TYPE in
             "feat")
               MESSAGE=${FEAT_MESSAGES[$RANDOM % ${#FEAT_MESSAGES[@]}]}
-              EMOJI="✨"
               ;;
             "fix")
               MESSAGE=${FIX_MESSAGES[$RANDOM % ${#FIX_MESSAGES[@]}]}
-              EMOJI="🐛"
               ;;
             "refactor")
               MESSAGE=${REFACTOR_MESSAGES[$RANDOM % ${#REFACTOR_MESSAGES[@]}]}
-              EMOJI="♻️"
               ;;
             "perf")
               MESSAGE="Improve performance and optimize resource usage"
-              EMOJI="⚡"
               ;;
             "docs")
               MESSAGE="Update documentation and API references"
-              EMOJI="📚"
               ;;
             "test")
               MESSAGE="Add comprehensive test coverage"
-              EMOJI="🧪"
               ;;
             "chore")
               MESSAGE="Update dependencies and configuration"
-              EMOJI="🔧"
               ;;
             "style")
               MESSAGE="Improve code formatting and style consistency"
-              EMOJI="💄"
               ;;
             "ci")
               MESSAGE="Update CI/CD pipeline configuration"
-              EMOJI="👷"
               ;;
             "build")
               MESSAGE="Optimize build process and deployment"
-              EMOJI="🏗️"
               ;;
           esac
           
@@ -146,7 +136,7 @@ jobs:
           echo "module.exports = update;" >> "src/updates/update_${DATE}_${i}.js"
           
           # Stocker le message de commit pour plus tard
-          echo "$EMOJI $COMMIT_TYPE($COMMIT_SCOPE): $MESSAGE" >> commit_messages.txt
+          echo "$COMMIT_TYPE($COMMIT_SCOPE): $MESSAGE" >> commit_messages.txt
           done
         fi
         
@@ -212,11 +202,11 @@ jobs:
             git add src/updates/ src/stats.js README.md
             git commit -m "$commit_message
 
-- Développement continu de la plateforme EcoTrack
-- Amélioration des performances et nouvelles fonctionnalités
-- Optimisation de l'IA pour la durabilité d'entreprise
+- Continuous development of EcoTrack platform
+- Performance improvements and new features
+- AI optimization for enterprise sustainability
 
-Développé par Zakaria Talali | EcoTrack 2025" || true
+Developed by Zakaria Talali | EcoTrack 2025" || true
           done < commit_messages.txt
         fi
         # Si pas de commits à faire, on ne fait rien (plus naturel)

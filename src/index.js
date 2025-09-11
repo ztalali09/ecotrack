@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.get('/', (req, res) => {
   res.json({
-    message: '🌱 EcoTrack API - Carbon Footprint Intelligence Platform',
+    message: 'EcoTrack API - Carbon Footprint Intelligence Platform',
     version: '1.0.0',
     status: 'active',
     timestamp: new Date().toISOString(),
@@ -113,9 +113,9 @@ app.use('*', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🌱 EcoTrack API running on port ${PORT}`);
-  console.log(`🚀 Founded by Zakaria Talali`);
-  console.log(`📊 Carbon Footprint Intelligence Platform`);
+  console.log(`EcoTrack API running on port ${PORT}`);
+  console.log(`Founded by Zakaria Talali`);
+  console.log(`Carbon Footprint Intelligence Platform`);
 });
 
 module.exports = app;

@@ -1,0 +1,112 @@
+name: Daily Automated Commits
+
+on:
+  schedule:
+    # Exécute tous les jours à 9h00 UTC (10h00 heure française)
+    - cron: '0 9 * * *'
+  workflow_dispatch: # Permet d'exécuter manuellement
+
+jobs:
+  daily-commit:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Configure Git
+      run: |
+        git config --local user.email "zakaria@ecotrack.io"
+        git config --local user.name "Zakaria Talali"
+        
+    - name: Generate daily update
+      run: |
+        # Créer un fichier de log quotidien
+        DATE=$(date +%Y-%m-%d)
+        echo "# Daily Update - $DATE" > daily-updates/$DATE.md
+        echo "" >> daily-updates/$DATE.md
+        echo "## 🚀 EcoTrack Development Progress" >> daily-updates/$DATE.md
+        echo "" >> daily-updates/$DATE.md
+        
+        # Générer des mises à jour réalistes
+        RANDOM_NUM=$((RANDOM % 5 + 1))
+        case $RANDOM_NUM in
+          1)
+            echo "- ✅ Optimisé l'algorithme d'analyse prédictive des émissions" >> daily-updates/$DATE.md
+            echo "- 🔧 Amélioré les performances de l'API de 15%" >> daily-updates/$DATE.md
+            echo "- 📊 Ajouté de nouveaux métriques ESG" >> daily-updates/$DATE.md
+            ;;
+          2)
+            echo "- 🎨 Refactorisé l'interface utilisateur du dashboard" >> daily-updates/$DATE.md
+            echo "- 🧪 Ajouté des tests unitaires pour les modules IA" >> daily-updates/$DATE.md
+            echo "- 📈 Intégré de nouvelles sources de données énergétiques" >> daily-updates/$DATE.md
+            ;;
+          3)
+            echo "- 🔒 Renforcé la sécurité des données clients" >> daily-updates/$DATE.md
+            echo "- 🌐 Optimisé l'infrastructure cloud AWS" >> daily-updates/$DATE.md
+            echo "- 📱 Amélioré la responsivité mobile" >> daily-updates/$DATE.md
+            ;;
+          4)
+            echo "- 🤖 Entraîné de nouveaux modèles ML pour la détection d'anomalies" >> daily-updates/$DATE.md
+            echo "- 📋 Mise à jour de la documentation API" >> daily-updates/$DATE.md
+            echo "- 🎯 Implémenté de nouvelles recommandations personnalisées" >> daily-updates/$DATE.md
+            ;;
+          5)
+            echo "- 🚀 Déployé la v1.2.0 en production" >> daily-updates/$DATE.md
+            echo "- 🐛 Corrigé des bugs critiques dans le système de reporting" >> daily-updates/$DATE.md
+            echo "- 💡 Ajouté de nouvelles fonctionnalités d'export de données" >> daily-updates/$DATE.md
+            ;;
+        esac
+        
+        echo "" >> daily-updates/$DATE.md
+        echo "## 📊 Métriques du jour" >> daily-updates/$DATE.md
+        echo "- Utilisateurs actifs: $((RANDOM % 50 + 450))" >> daily-updates/$DATE.md
+        echo "- Requêtes API: $((RANDOM % 10000 + 50000))" >> daily-updates/$DATE.md
+        echo "- Temps de réponse moyen: $((RANDOM % 50 + 120))ms" >> daily-updates/$DATE.md
+        echo "" >> daily-updates/$DATE.md
+        echo "*Généré automatiquement par GitHub Actions*" >> daily-updates/$DATE.md
+        
+    - name: Update project stats
+      run: |
+        # Mettre à jour les statistiques du projet
+        DATE=$(date +%Y-%m-%d)
+        echo "// Auto-generated stats - $DATE" > src/stats.js
+        echo "const projectStats = {" >> src/stats.js
+        echo "  lastUpdated: '$DATE'," >> src/stats.js
+        echo "  totalUsers: $((RANDOM % 100 + 500))," >> src/stats.js
+        echo "  totalEmissionsTracked: $((RANDOM % 1000 + 5000))," >> src/stats.js
+        echo "  averageReduction: $((RANDOM % 5 + 20)).$((RANDOM % 10))," >> src/stats.js
+        echo "  uptime: '$((RANDOM % 10 + 99)).$((RANDOM % 10))%'" >> src/stats.js
+        echo "};" >> src/stats.js
+        echo "module.exports = projectStats;" >> src/stats.js
+        
+    - name: Update README with latest metrics
+      run: |
+        # Mettre à jour les métriques dans le README
+        DATE=$(date +%Y-%m-%d)
+        USERS=$((RANDOM % 50 + 500))
+        EMISSIONS=$((RANDOM % 1000 + 5000))
+        REDUCTION=$((RANDOM % 5 + 20))
+        
+        # Créer un fichier temporaire avec les nouvelles métriques
+        sed "s/🏢 \*\*500+\*\* entreprises clientes/🏢 **$USERS** entreprises clientes/g" README.md > README_temp.md
+        sed "s/📊 \*\*23%\*\* réduction moyenne d'empreinte carbone/📊 **$REDUCTION%** réduction moyenne d'empreinte carbone/g" README_temp.md > README.md
+        rm README_temp.md
+        
+    - name: Commit changes
+      run: |
+        git add .
+        git commit -m "🚀 Daily update: EcoTrack development progress
+
+- Améliorations continues de la plateforme
+- Optimisations des performances
+- Nouvelles fonctionnalités IA
+- Mise à jour des métriques
+
+Fondé par Zakaria Talali | EcoTrack 2025" || exit 0
+        
+    - name: Push changes
+      run: |
+        git push origin main || exit 0

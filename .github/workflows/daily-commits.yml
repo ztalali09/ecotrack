@@ -2,8 +2,8 @@ name: Daily Automated Commits
 
 on:
   schedule:
-    # Exécute 1-3 fois par jour à des heures variables pour plus de réalisme
-    - cron: '0 8,14,20 * * *'  # 8h, 14h, 20h UTC (9h, 15h, 21h heure française)
+    # Exécute toutes les heures entre 8h et 22h pour plus de réalisme
+    - cron: '0 8-22 * * *'  # Toutes les heures de 8h à 22h UTC (9h à 23h heure française)
   workflow_dispatch: # Permet d'exécuter manuellement
 
 jobs:
@@ -31,8 +31,17 @@ jobs:
         TIME=$(date +%H:%M)
         DAY_OF_WEEK=$(date +%u)  # 1=lundi, 7=dimanche
         
-        # Générer un nombre aléatoire de commits (1-3 par exécution)
-        COMMIT_COUNT=$((RANDOM % 3 + 1))
+        # Générer un nombre aléatoire de commits (1-8 par jour, mais pas à chaque heure)
+        # Probabilité de commit : 30% à chaque heure (pour avoir 1-8 commits par jour)
+        COMMIT_PROBABILITY=$((RANDOM % 100))
+        
+        if [ $COMMIT_PROBABILITY -lt 30 ]; then
+          # Si on commit, générer 1-3 commits à cette heure
+          COMMIT_COUNT=$((RANDOM % 3 + 1))
+        else
+          # Sinon, pas de commit à cette heure
+          COMMIT_COUNT=0
+        fi
         
         # Types de commits réalistes
         COMMIT_TYPES=("feat" "fix" "refactor" "perf" "docs" "test" "chore" "style" "ci" "build")
@@ -72,8 +81,9 @@ jobs:
           "Optimize memory usage in ML models"
         )
         
-        # Générer les commits
-        for i in $(seq 1 $COMMIT_COUNT); do
+        # Générer les commits seulement si COMMIT_COUNT > 0
+        if [ $COMMIT_COUNT -gt 0 ]; then
+          for i in $(seq 1 $COMMIT_COUNT); do
           COMMIT_TYPE=${COMMIT_TYPES[$RANDOM % ${#COMMIT_TYPES[@]}]}
           COMMIT_SCOPE=${COMMIT_SCOPES[$RANDOM % ${#COMMIT_SCOPES[@]}]}
           
@@ -137,7 +147,8 @@ jobs:
           
           # Stocker le message de commit pour plus tard
           echo "$EMOJI $COMMIT_TYPE($COMMIT_SCOPE): $MESSAGE" >> commit_messages.txt
-        done
+          done
+        fi
         
     - name: Update project metrics
       run: |
@@ -194,8 +205,8 @@ jobs:
         
     - name: Create realistic commits
       run: |
-        # Lire les messages de commit générés
-        if [ -f commit_messages.txt ]; then
+        # Lire les messages de commit générés seulement s'il y en a
+        if [ -f commit_messages.txt ] && [ -s commit_messages.txt ]; then
           while IFS= read -r commit_message; do
             # Créer un commit séparé pour chaque message
             git add src/updates/ src/stats.js README.md
@@ -207,17 +218,8 @@ jobs:
 
 Développé par Zakaria Talali | EcoTrack 2025" || true
           done < commit_messages.txt
-        else
-          # Commit de fallback si aucun message n'a été généré
-          git add .
-          git commit -m "🔧 chore: Update project configuration and dependencies
-
-- Mise à jour des métriques de performance
-- Optimisation des configurations de déploiement
-- Amélioration de la documentation
-
-Développé par Zakaria Talali | EcoTrack 2025" || true
         fi
+        # Si pas de commits à faire, on ne fait rien (plus naturel)
         
     - name: Push all commits
       run: |

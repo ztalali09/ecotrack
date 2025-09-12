@@ -208,13 +208,21 @@ jobs:
           while IFS= read -r commit_message; do
             # Créer un commit séparé pour chaque message
             git add src/updates/ src/stats.js README.md
-            git commit -m "$commit_message
-
-- Continuous development of EcoTrack platform
-- Performance improvements and new features
-- AI optimization for enterprise sustainability
-
-Developed by Zakaria Talali | EcoTrack 2025" || true
+            
+            # Créer le message de commit dans un fichier temporaire
+            echo "$commit_message" > commit_msg.tmp
+            echo "" >> commit_msg.tmp
+            echo "Continuous development of EcoTrack platform" >> commit_msg.tmp
+            echo "Performance improvements and new features" >> commit_msg.tmp
+            echo "AI optimization for enterprise sustainability" >> commit_msg.tmp
+            echo "" >> commit_msg.tmp
+            echo "Developed by Zakaria Talali | EcoTrack 2025" >> commit_msg.tmp
+            
+            # Utiliser le fichier pour le commit
+            git commit -F commit_msg.tmp || true
+            
+            # Nettoyer le fichier temporaire
+            rm -f commit_msg.tmp
           done < commit_messages.txt
         else
           echo "No commits to make this time"

@@ -3,7 +3,7 @@
 
 const update = {
   type: 'test',
-  scope: 'ai',
+  scope: 'dashboard',
   timestamp: '2025-09-14 13:20',
   description: 'Add comprehensive test coverage',
   author: 'Zakaria Talali',

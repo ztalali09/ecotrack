@@ -3,7 +3,7 @@
 
 const update = {
   type: 'perf',
-  scope: 'security',
+  scope: 'notifications',
   timestamp: '2025-10-02 13:28',
   description: 'Improve performance and optimize resource usage',
   author: 'Zakaria Talali',

@@ -1,16 +1,16 @@
-// Auto-generated project stats - 2025-10-04 11:14
+// Auto-generated project stats - 2025-10-04 12:37
 // EcoTrack Carbon Footprint Intelligence Platform
 // Founded by Zakaria Talali
 
 const projectStats = {
-  lastUpdated: '2025-10-04 11:14',
-  totalUsers: 502,
-  totalEmissionsTracked: 5057,
-  averageReduction: 24.2,
-  uptime: '99.1%',
-  apiRequests: 58963,
-  responseTime: 135,
-  activeCountries: 19,
+  lastUpdated: '2025-10-04 12:37',
+  totalUsers: 503,
+  totalEmissionsTracked: 5022,
+  averageReduction: 24.8,
+  uptime: '99.2%',
+  apiRequests: 58446,
+  responseTime: 154,
+  activeCountries: 16,
   founder: 'Zakaria Talali',
   company: 'EcoTrack'
 };

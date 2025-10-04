@@ -3,7 +3,7 @@
 
 const update = {
   type: 'refactor',
-  scope: 'notifications',
+  scope: 'auth',
   timestamp: '2025-10-04 16:22',
   description: 'Optimize ML model performance',
   author: 'Zakaria Talali',
